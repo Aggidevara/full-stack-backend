@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.jws.soap.SOAPBinding;
 import java.util.List;
 
 @RestController
@@ -35,6 +36,14 @@ public class UserController {
     public ResponseEntity<User> addFriend(@PathVariable("id1") Long firstId, @PathVariable("id2") Long secondId){
        List<User> user1= userService.addFriendByName(firstId,secondId);
         ResponseEntity responseEntity=new ResponseEntity<List<User>>(user1, HttpStatus.CREATED);
+        return responseEntity;
+    }
+
+    @DeleteMapping("deleteuser{id}")
+    public  ResponseEntity<User> deleteUser(@PathVariable("id") long id){
+        ResponseEntity responseEntity;
+        User user=userService.deleteUserById(id);
+        responseEntity=new ResponseEntity<String>("deleted Successfully",HttpStatus.OK);
         return responseEntity;
     }
 }

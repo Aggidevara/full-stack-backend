@@ -12,5 +12,6 @@ public interface UserRepo extends Neo4jRepository<User,Long> {
     public List<User> makeFriend(@Param("userName1") String userName1,@Param("userName2") String userName2);
     @Query("MATCH(n) RETURN n")
     public List<User> getAllUsers();
-    public User getByName(String name);
+    @Query("MATCH(a:User)-[r:friend]->(b:User) where a.name={username} delete a,r")
+    public User deleteUser(@Param("username") String username);
 }
