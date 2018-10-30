@@ -37,4 +37,13 @@ public class UserController {
         ResponseEntity responseEntity=new ResponseEntity<List<User>>(user1, HttpStatus.CREATED);
         return responseEntity;
     }
+
+    @GetMapping("recommendL1/{name}/{var}")
+    public ResponseEntity<User> recommendFriend(@PathVariable("name") String name, @PathVariable("var") int var){
+        List<User> user1= userService.recommendLVar(name, var);
+        ResponseEntity responseEntity=new ResponseEntity<List<User>>(user1, HttpStatus.CREATED);
+        return responseEntity;
+    }
+
+
 }

@@ -56,4 +56,20 @@ public class UserServiceImpl implements UserService {
         User deleteuser=userRepo.findById(id).get();
         return deleteuser;
     }
+    @Override
+    public List<User> recommendLVar(String name, int var){
+
+        if(var==1) {
+            List<User> level1 = userRepo.recommendL1(name);
+            return level1;
+        }
+        else if(var==2){
+            List<User> level2 = userRepo.recommendL2(name);
+            return level2;
+        }
+        else{
+
+            return null;
+        }
+    }
 }
