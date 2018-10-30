@@ -9,7 +9,7 @@ public interface UserService {
     public List<User> getAllUsers();
 //    public List<User> searchByName(String name);
     public User getUserById(Long id);
-    public User addFriendByName(String name);
+    public List<User> addFriendByName(long id1,long id2);
     public User deleteUserById(Long id);
 
 }

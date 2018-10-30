@@ -30,11 +30,11 @@ public class UserController {
         ResponseEntity responseEntity=new ResponseEntity<List<User>>(user1, HttpStatus.CREATED);
         return responseEntity;
     }
-    @PostMapping("addfriend")
+    @PostMapping("addfriend/{id1}/{id2}")
 
-    public ResponseEntity<User> getFriendbyName(@RequestBody User user){
-        User user1=userService.addFriendByName(user.getName());
-        ResponseEntity responseEntity=new ResponseEntity<User>(user1, HttpStatus.CREATED);
+    public ResponseEntity<User> addFriend(@PathVariable("id1") Long firstId, @PathVariable("id2") Long secondId){
+       List<User> user1= userService.addFriendByName(firstId,secondId);
+        ResponseEntity responseEntity=new ResponseEntity<List<User>>(user1, HttpStatus.CREATED);
         return responseEntity;
     }
 }

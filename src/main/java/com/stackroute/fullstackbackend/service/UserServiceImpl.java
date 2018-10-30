@@ -13,6 +13,7 @@ import java.util.Optional;
 public class UserServiceImpl implements UserService {
 
    UserRepo userRepo;
+
     @Autowired
     public UserServiceImpl(UserRepo userRepo) {
         this.userRepo = userRepo;
@@ -45,9 +46,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User addFriendByName(String name) {
-        User friend=  userRepo.getByName(name);
-        friend=userRepo.addFriend(friend);
+    public List<User>addFriendByName(long id1,long id2) {
+        List<User> friend=  userRepo.makeFriend(userRepo.findById(id1).get().getName(),userRepo.findById(id2).get().getName());
         return friend;
     }
 

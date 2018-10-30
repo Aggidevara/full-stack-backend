@@ -15,7 +15,7 @@ public class User {
 //    private Image imageUrl;
     private String description;
     @Relationship(type="friend")
-    public Set<Long> friends;
+    public Set<Long> user;
 
     public User() {
     }
@@ -75,11 +75,11 @@ public class User {
         this.description = description;
     }
 
-    public Set<Long> getFriends() {
-        return friends;
+    public Set<Long> getuser() {
+        return user;
     }
 
-    public void setFriends(Set<Long> friends) {
-        this.friends = friends;
+    public void setuser(Set<Long> user) {
+        this.user = user;
     }
 }
