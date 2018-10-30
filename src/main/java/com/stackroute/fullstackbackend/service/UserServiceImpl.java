@@ -39,23 +39,23 @@ public class UserServiceImpl implements UserService {
 //        return user;
 //    }
 
-    @Override
-    public User getUserById(Long id) {
-        User user1=userRepo.findById(id).get();
-        return user1;
-    }
+//    @Override
+//    public User getUserById(Long id) {
+//        User user1=userRepo.findById(id).get();
+//        return user1;
+//    }
 
     @Override
     public List<User>addFriendByName(long id1,long id2) {
-        List<User> friend=  userRepo.makeFriend(userRepo.findById(id1).get().getName(),userRepo.findById(id2).get().getName());
+        List<User> friend= userRepo.makeFriend(userRepo.findById(id1).get().getName(),userRepo.findById(id2).get().getName());
         return friend;
     }
-
     @Override
-    public User deleteUserById(Long id) {
-        User deleteuser=userRepo.findById(id).get();
+    public boolean deleteUserById(Long id) {
+        boolean deleteuser=userRepo.deleteUser(userRepo.findById(id).get().getName());
         return deleteuser;
     }
+
     @Override
     public List<User> recommendLVar(String name, int var){
 
@@ -72,4 +72,18 @@ public class UserServiceImpl implements UserService {
             return null;
         }
     }
+
+    @Override
+    public boolean deleteUserFriendsByName(Long id) {
+        boolean deletefriend=userRepo.deleteUserfriendsByName(userRepo.findById(id).get().getName());
+        return deletefriend;
+    }
+
+    @Override
+    public List<User> getUserfriends(Long id) {
+        List<User> friendslist=userRepo.getUserFriends(userRepo.findById(id).get().getName());
+        return friendslist;
+    }
+
+
 }

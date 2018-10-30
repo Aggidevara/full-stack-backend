@@ -9,6 +9,7 @@ import java.util.Set;
 public class User {
     @GraphId
     private Long id;
+
     private String name;
     private Integer age;
     private String birthdate;
