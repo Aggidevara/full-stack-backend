@@ -51,27 +51,39 @@ public class UserServiceImpl implements UserService {
         return friend;
     }
     @Override
-    public User deleteUserById(Long id) {
-        User deleteuser=userRepo.deleteUser(userRepo.findById(id).get().getName());
+    public boolean deleteUserById(Long id) {
+        boolean deleteuser=userRepo.deleteUser(userRepo.findById(id).get().getName());
         return deleteuser;
     }
 
     @Override
-    public List<User> deleteUserFriendsByName(Long id) {
-        List<User> friendlist=userRepo.deleteUserfriendsByName(userRepo.findById(id).get().getName());
-        return friendlist;
+    public List<User> recommendLVar(String name, int var){
+
+        if(var==1) {
+            List<User> level1 = userRepo.recommendL1(name);
+            return level1;
+        }
+        else if(var==2){
+            List<User> level2 = userRepo.recommendL2(name);
+            return level2;
+        }
+        else{
+
+            return null;
+        }
     }
 
-//    @Override
-//    public List<User> getLevel2Friends(long id) {
-//     List<User> users=userRepo.getLevel2Friends(userRepo.findById(id).get().getName());
-//     return users;
-//    }
+    @Override
+    public boolean deleteUserFriendsByName(Long id) {
+        boolean deletefriend=userRepo.deleteUserfriendsByName(userRepo.findById(id).get().getName());
+        return deletefriend;
+    }
+
+    @Override
+    public List<User> getUserfriends(Long id) {
+        List<User> friendslist=userRepo.getUserFriends(userRepo.findById(id).get().getName());
+        return friendslist;
+    }
 
 
-//    @Override
-//    public User deleteUser(User user) {
-//        User deleteuser=userRepo.findById().get();
-//        return deleteuser;
-//    }
 }

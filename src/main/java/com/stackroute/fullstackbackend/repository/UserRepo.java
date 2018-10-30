@@ -8,6 +8,20 @@ import org.springframework.data.repository.query.Param;
 import java.util.List;
 
 public interface UserRepo extends Neo4jRepository<User,Long> {
+
+    @Query("MATCH (me:User)-[:friend]->(myFriend:User)-[:friend]->(friendOfFriend:User) WHERE NOT \n" +
+            "(me)-[:friend]->(friendOfFriend:User) AND me.name = {name} AND NOT friendOfFriend.name={name}\n" +
+            "RETURN \n" +
+            " friendOfFriend")
+    public List<User> recommendL1(@Param("name") String name);
+
+    @Query("MATCH (me:User)-[:friend]->(myFriend:User)-[:friend]->(friendOfFriend:User)-[:friend]->(friendOfFriendOfFriend:User) WHERE NOT \n" +
+            "(me)-[:friend]->(friendOfFriendOfFriend:User) AND NOT (me)-[:friend]->(friendOfFriend:User) AND me.name = {name} AND NOT friendOfFriendOfFriend.name={name}\n" +
+            "RETURN \n" +
+            " friendOfFriendOfFriend")
+    public List<User> recommendL2(@Param("name") String name);
+
+
     @Query("MATCH (a:User), (b:User) WHERE a.name ={userName1} AND b.name ={userName2} CREATE (a)-[r: friend]->(b) CREATE (a)<-[f: friend]-(b) RETURN a,b ")
     public List<User> makeFriend(@Param("userName1") String userName1,@Param("userName2") String userName2);
 
@@ -16,13 +30,14 @@ public interface UserRepo extends Neo4jRepository<User,Long> {
 
 
     @Query("MATCH(user:User{name:{username}}) detach delete user")
-    public User deleteUser(@Param("username") String username);
+    public boolean deleteUser(@Param("username") String username);
 
     @Query("MATCH(user:User)<-[r:friend]->(friend:User) where friend.name={username} delete r")
-    public List<User> deleteUserfriendsByName(@Param("username") String username);
-//
-//    @Query("match(user:User)-[r:friend]->(f:user)-[r1:friend]->(fof:User) return fof")
-//    public List<User>  getLevel2Friends(@Param("username") String username);
+    public boolean deleteUserfriendsByName(@Param("username") String username);
+
+    @Query("MATCH(user:User)-[r:friend]->(friend:User) where user.name={username} return friend")
+    public List<User> getUserFriends(@Param("username")String username);
 
 
 }
+

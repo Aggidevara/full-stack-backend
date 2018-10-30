@@ -38,27 +38,38 @@ public class UserController {
         return responseEntity;
     }
 
-    @DeleteMapping("deleteuser/{id}")
-    public  ResponseEntity<User> deleteUser(@PathVariable("id") Long id){
 
-        User user=userService.deleteUserById(id);
+
+    @GetMapping("recommendL1/{name}/{var}")
+    public ResponseEntity<User> recommendFriend(@PathVariable("name") String name, @PathVariable("var") int var){
+        List<User> user1= userService.recommendLVar(name, var);
+        ResponseEntity responseEntity=new ResponseEntity<List<User>>(user1, HttpStatus.CREATED);
+        return responseEntity;
+    }
+
+
+    @DeleteMapping("deleteuser/{id}")
+    public ResponseEntity<User> deleteUser(@PathVariable("id") Long id){
+
+        boolean user=userService.deleteUserById(id);
         ResponseEntity responseEntity=new ResponseEntity<String>("deleted Successfully",HttpStatus.OK);
         return responseEntity;
     }
     @DeleteMapping("deleteuserfriend/{id}")
     public  ResponseEntity<User> deleteUserFriend(@PathVariable("id") Long id){
 
-        List<User> user=userService.deleteUserFriendsByName(id);
+        boolean user=userService.deleteUserFriendsByName(id);
+        ResponseEntity responseEntity=new ResponseEntity<String>("deleted Successfully from your friend list",HttpStatus.OK);
+        return responseEntity;
+    }
+
+    @GetMapping("userfriends/{id}")
+    public  ResponseEntity<User> getUserFriends(@PathVariable("id") Long id){
+
+        List<User> user=userService.getUserfriends(id);
         ResponseEntity responseEntity=new ResponseEntity<List<User>>(user,HttpStatus.OK);
         return responseEntity;
     }
 
-//    @GetMapping("level2/{id}")
-//    public  ResponseEntity<User> level2Friends(@PathVariable("id") Long id){
-//
-//        List<User> user=userService.getLevel2Friends(id);
-//        ResponseEntity responseEntity=new ResponseEntity<List<User>>(user,HttpStatus.OK);
-//        return responseEntity;
-//    }
 
 }
