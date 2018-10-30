@@ -51,15 +51,21 @@ public class UserServiceImpl implements UserService {
         return friend;
     }
     @Override
-    public User deleteUserById(Long id) {
-        User deleteuser=userRepo.deleteUser(userRepo.findById(id).get().getName());
+    public boolean deleteUserById(Long id) {
+        boolean deleteuser=userRepo.deleteUser(userRepo.findById(id).get().getName());
         return deleteuser;
     }
 
     @Override
-    public List<User> deleteUserFriendsByName(Long id) {
-        List<User> friendlist=userRepo.deleteUserfriendsByName(userRepo.findById(id).get().getName());
-        return friendlist;
+    public boolean deleteUserFriendsByName(Long id) {
+        boolean deletefriend=userRepo.deleteUserfriendsByName(userRepo.findById(id).get().getName());
+        return deletefriend;
+    }
+
+    @Override
+    public List<User> getUserfriends(Long id) {
+        List<User> friendslist=userRepo.getUserFriends(userRepo.findById(id).get().getName());
+        return friendslist;
     }
 
 //    @Override

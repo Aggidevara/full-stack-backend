@@ -15,10 +15,13 @@ public interface UserRepo extends Neo4jRepository<User,Long> {
     public List<User> getAllUsers();
 
     @Query("MATCH(user:User{name:{username}}) detach delete user")
-    public User deleteUser(@Param("username") String username);
+    public boolean deleteUser(@Param("username") String username);
 
     @Query("MATCH(user:User)<-[r:friend]->(friend:User) where friend.name={username} delete r")
-    public List<User> deleteUserfriendsByName(@Param("username") String username);
+    public boolean deleteUserfriendsByName(@Param("username") String username);
+
+    @Query("MATCH(user:User)-[r:friend]->(friend:User) where user.name={username} return friend")
+    public List<User> getUserFriends(@Param("username")String username);
 //
 //    @Query("match(user:User)-[r:friend]->(f:user)-[r1:friend]->(fof:User) return fof")
 //    public List<User>  getLevel2Friends(@Param("username") String username);

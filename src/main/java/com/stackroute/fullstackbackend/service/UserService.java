@@ -11,9 +11,11 @@ public interface UserService {
 
     public List<User> addFriendByName(long id1, long id2);
 
-    public User deleteUserById(Long id);
+    public boolean deleteUserById(Long id);
 
-    public List<User>deleteUserFriendsByName(Long id);
+    public boolean deleteUserFriendsByName(Long id);
+
+    public List<User> getUserfriends(Long id);
 //    public List<User> getLevel2Friends(long id);
 
 }
