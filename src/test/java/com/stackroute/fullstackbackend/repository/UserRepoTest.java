@@ -1,4 +1,4 @@
-package com.stackroute.fullstackbackend.service;
+package com.stackroute.fullstackbackend.repository;
 
 import org.junit.After;
 import org.junit.Before;
@@ -6,7 +6,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class UserServiceTest {
+public class UserRepoTest {
 
     @Before
     public void setUp() throws Exception {
@@ -17,7 +17,7 @@ public class UserServiceTest {
     }
 
     @Test
-    public void addUser() {
+    public void makeFriend() {
     }
 
     @Test
@@ -25,14 +25,10 @@ public class UserServiceTest {
     }
 
     @Test
-    public void addFriendByName() {
+    public void deleteUser() {
     }
 
     @Test
-    public void deleteUserById() {
-    }
-
-    @Test
-    public void deleteUserFriendsByName() {
+    public void deleteUserfriendsByName() {
     }
 }

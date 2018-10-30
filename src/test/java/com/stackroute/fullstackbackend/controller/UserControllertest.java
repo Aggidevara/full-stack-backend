@@ -36,7 +36,7 @@ public class UserControllertest {
 
     @Autowired
     private MockMvc mockMvc;
-    private User user;
+    private User user,user1;
     @MockBean
     private UserService userService;
     @InjectMocks
@@ -48,17 +48,27 @@ public class UserControllertest {
         MockitoAnnotations.initMocks(this);
         mockMvc = MockMvcBuilders.standaloneSetup(userController).build();
         user = new User();
+        user1=new User();
         user.setId(4l);
         user.setAge(12);
         user.setBirthdate("12/54");
         user.setName("aish");
         user.setDescription("waakd");
+        user1.setId(3l);
+        user1.setAge(12);
+        user1.setBirthdate("12/54");
+        user1.setName("swe");
+        user1.setDescription("waakd");
         list = new ArrayList<>();
         list.add(user);
+        list.add(user1);
+        System.out.println(list);
     }
+
     @Test
     public void addUser() throws Exception {
         when(userService.getAllUsers()).thenReturn(list);
+        System.out.println(list);
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/adduser")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(user)))
@@ -83,16 +93,31 @@ public class UserControllertest {
 //                .andExpect(MockMvcResultMatchers.status().isConflict())
 //                .andDo(MockMvcResultHandlers.print());
 //    }
+//
+//    @Test
+//    public void deleteUser() throws Exception {
+//        when(userService.deleteUserById(user.getId())).thenReturn(user);
+//        mockMvc.perform(MockMvcRequestBuilders
+//                .delete("/api/v1/deleteuser/4l")
+//                .contentType(MediaType.APPLICATION_JSON).content(asJsonString(user)))
+//                .andExpect(MockMvcResultMatchers.status().isOk())
+//                .andDo(MockMvcResultHandlers.print());
+//    }
 
-    @Test
-    public void deleteUser() throws Exception {
-        when(userService.deleteUserById(user.getId())).thenReturn(user);
-        mockMvc.perform(MockMvcRequestBuilders
-                .delete("/api/v1/deleteuser/4")
-                .contentType(MediaType.APPLICATION_JSON).content(asJsonString(user)))
-                .andExpect(MockMvcResultMatchers.status().isOk())
-                .andDo(MockMvcResultHandlers.print());
-    }
+//    @Test
+//    public void addFriend() throws Exception{
+//        System.out.println(list);
+//        when(userService.addFriendByName(user.getId(),user.getId())).thenReturn(list);
+//
+//        mockMvc.perform(MockMvcRequestBuilders
+//        .post("/api/v1/addfriend/3l/4l")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(asJsonString(user)))
+//                .andExpect(MockMvcResultMatchers.status().isCreated())
+//                .andDo(MockMvcResultHandlers.print());
+//
+//
+//    }
 
     private static String asJsonString(final Object obj)
     {
