@@ -52,9 +52,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean deleteUserFriendsByName(String username) {
-        boolean deletefriend = userRepo.deleteUserfriendsByName(username);
-        return deletefriend;
+    public User deleteUserFriendsByName(String username1, String username2) {
+        User loggedInUser = userRepo.deleteUserfriendsByName(username1, username2);
+        return loggedInUser;
     }
     public List<User> recommendLVar(String name, int var){
 

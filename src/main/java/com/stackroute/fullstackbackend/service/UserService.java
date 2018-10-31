@@ -13,7 +13,7 @@ public interface UserService {
 
     public boolean deleteUserByUsername(String username);//username
 
-    public boolean deleteUserFriendsByName(String username);//friends username
+    public User deleteUserFriendsByName(String username1, String username2);//friends username
 
     List<User> searchUsersByName(String input);
 

@@ -52,11 +52,11 @@ public class UserController {
     }
 
 
-    @DeleteMapping("deleteuserfriend/{username}")
-    public  ResponseEntity<User> deleteUserFriend(@PathVariable("username") String username){
+    @DeleteMapping("deleteuserfriend/{username1}/{username2}")
+    public  ResponseEntity<User> deleteUserFriend(@PathVariable("username1") String username1,@PathVariable("username2") String username2){
 
-        boolean user=userService.deleteUserFriendsByName(username);
-        ResponseEntity responseEntity=new ResponseEntity<String>("deleted Successfully from your friend list",HttpStatus.OK);
+        User user=userService.deleteUserFriendsByName(username1, username2);
+        ResponseEntity responseEntity=new ResponseEntity<User>(user,HttpStatus.OK);
         return responseEntity;
     }
 
