@@ -2,7 +2,8 @@ package com.stackroute.fullstackbackend.model;
 
 import org.neo4j.ogm.annotation.*;
 
-import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @NodeEntity
@@ -13,37 +14,26 @@ public class User {
     private String name;
     private Integer age;
     private String birthdate;
-//    private Image imageUrl;
+    //    private Image imageUrl;
     private String description;
-    @Relationship(type="friend")
-    public Set<User> friends;
+    @Relationship(type = "friend")
+    public List<Long> friends=new ArrayList<>();
+
 
     public User() {
     }
 
-    public User(String username,String name, Integer age, String birthdate, String description ,Set friends) {
-        this.username=username;
+
+    public User(Long id, String username, String name, Integer age, String birthdate, String description, List<Long> friends) {
+        this.id = id;
+        this.username = username;
         this.name = name;
         this.age = age;
         this.birthdate = birthdate;
         this.description = description;
-        this.friends= friends;
-    }
 
-    public String getUsername() {
-        return username;
-    }
+        this.friends =friends;
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Set<User> getFriends() {
-        return friends;
-    }
-
-    public void setFriends(Set<User> friends) {
-        this.friends = friends;
     }
 
     public Long getId() {
@@ -52,6 +42,14 @@ public class User {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getName() {
@@ -78,14 +76,6 @@ public class User {
         this.birthdate = birthdate;
     }
 
-//    public Image getImageUrl() {
-//        return imageUrl;
-//    }
-//
-//    public void setImageUrl(Image imageUrl) {
-//        this.imageUrl = imageUrl;
-//    }
-
     public String getDescription() {
         return description;
     }
@@ -95,4 +85,30 @@ public class User {
     }
 
 
+    public List<Long> getFriends() {
+        return friends;
+    }
+
+    public void setFriends(Long friend) {
+        System.out.println("adding friend: "+this.friends.add(friend));;
+        System.out.println(" user model " + this.friends);
+
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", birthdate='" + birthdate + '\'' +
+                ", description='" + description + '\'' +
+                ", friends=" + friends +
+                '}';
+    }
 }
+
+
+
+
