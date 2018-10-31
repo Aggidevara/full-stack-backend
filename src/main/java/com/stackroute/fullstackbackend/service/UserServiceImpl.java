@@ -70,8 +70,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean deleteUserByUsername(String username) {
-        boolean deleteuser=userRepo.deleteUserByUsername(username);
-        return deleteuser;
+        User u=userRepo.deleteUserByUsername(username);
+        return true;
     }
 
 

@@ -10,24 +10,17 @@ public interface UserService {
 
     public List<User> getAllUsers();
 
-
-   // public User getUserById(Long id);
     public boolean addFriendByName(String username1, String username2);
 
     public List<User> recommendLVar(String name, int var);
-
 
     public List<User> searchUsersByName(String input);
 
     public List<User> getUserFriends(String username);
 
-
-
     public boolean deleteUserByUsername(String username);//username
 
-
-
-   public User getUserDetails(String username);
+    public User getUserDetails(String username);
 
     public User deleteUserFriendsByName(String username1, String username2);
 }

@@ -3,6 +3,7 @@ package com.stackroute.fullstackbackend.controller;
 
 import com.stackroute.fullstackbackend.model.User;
 import com.stackroute.fullstackbackend.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,6 +19,7 @@ public class UserController {
 
     UserService userService;
 
+    @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
     }
@@ -34,7 +36,7 @@ public class UserController {
     @GetMapping("getuser")
     public ResponseEntity<?> getAllUser(){
         List<User> user1=userService.getAllUsers();
-        ResponseEntity responseEntity=new ResponseEntity<List<User>>(user1, HttpStatus.CREATED);
+        ResponseEntity responseEntity=new ResponseEntity<List<User>>(user1, HttpStatus.OK);
         return responseEntity;
     }
 
@@ -47,9 +49,9 @@ public class UserController {
     }
 
     @DeleteMapping("deleteuser/{username}")
-    public ResponseEntity<User> deleteUser(@PathVariable("username") String username){
+    public ResponseEntity<?> deleteUser(@PathVariable("username") String username){
         boolean user=userService.deleteUserByUsername(username);
-        ResponseEntity responseEntity=new ResponseEntity<String>("deleted Successfully",HttpStatus.OK);
+        ResponseEntity responseEntity=new ResponseEntity<Boolean>(true,HttpStatus.OK);
 
         return responseEntity;
     }

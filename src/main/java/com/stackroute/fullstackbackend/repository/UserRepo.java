@@ -32,7 +32,7 @@ public interface UserRepo extends Neo4jRepository<User,Long> {
 
 
     @Query("MATCH(user:User{username:{username}}) detach delete user")
-    public boolean deleteUserByUsername(@Param("username") String username);
+    public User deleteUserByUsername(@Param("username") String username);
 
 
     @Query("MATCH(user:User{username:{username}}) detach delete user")
