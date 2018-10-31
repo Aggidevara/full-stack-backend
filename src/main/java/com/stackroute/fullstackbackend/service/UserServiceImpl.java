@@ -47,37 +47,44 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User>addFriendByName(long id1,long id2) {
-        List<User> friend= userRepo.makeFriend(userRepo.findById(id1).get().getName(),userRepo.findById(id2).get().getName());
+        List<User> friend= userRepo.makeFriend(userRepo.findById(id1).get().getUsername(),userRepo.findById(id2).get().getUsername());
         return friend;
     }
     @Override
-    public boolean deleteUserById(Long id) {
-        boolean deleteuser=userRepo.deleteUser(userRepo.findById(id).get().getName());
+    public boolean deleteUserByUsername(String username) {
+        boolean deleteuser=userRepo.deleteUserByUsername(username);
         return deleteuser;
     }
 
     @Override
-    public boolean deleteUserFriendsByName(Long id) {
-        boolean deletefriend=userRepo.deleteUserfriendsByName(userRepo.findById(id).get().getName());
+    public boolean deleteUserFriendsByName(String username) {
+        boolean deletefriend=userRepo.deleteUserfriendsByName(username);
         return deletefriend;
     }
 
     @Override
     public List<User> getUserfriends(Long id) {
-        List<User> friendslist=userRepo.getUserFriends(userRepo.findById(id).get().getName());
+        List<User> friendslist=userRepo.getUserFriends(userRepo.findById(id).get().getUsername());
         return friendslist;
     }
 
-//    @Override
-//    public List<User> getLevel2Friends(long id) {
-//     List<User> users=userRepo.getLevel2Friends(userRepo.findById(id).get().getName());
-//     return users;
-//    }
 
+    @Override
+    public List<User> searchUsersByName(String input){
+        List<User> userList=(List)userRepo.getAllUsers();
+        List<User> matchedList=new ArrayList<>();
+        for(int i=0;i<userList.size();i++){
+            if(userList.get(i).getName().toLowerCase().matches("(.*)"+input.toLowerCase()+"(.*)"))
+                matchedList.add(userList.get(i));
+        }
+        return matchedList;
+    }
 
-//    @Override
-//    public User deleteUser(User user) {
-//        User deleteuser=userRepo.findById().get();
-//        return deleteuser;
-//    }
+    @Override
+    public User getUserDetails(String username) {
+        User userdetails= userRepo.getUserDetails(username);
+
+        return userdetails;
+    }
+
 }

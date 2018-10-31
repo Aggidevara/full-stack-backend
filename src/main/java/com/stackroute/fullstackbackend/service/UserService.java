@@ -9,13 +9,16 @@ public interface UserService {
 
     public List<User> getAllUsers();
 
-    public List<User> addFriendByName(long id1, long id2);
+    public List<User> addFriendByName(long id1, long id2);//username..
 
-    public boolean deleteUserById(Long id);
+    public boolean deleteUserByUsername(String username);//username
 
-    public boolean deleteUserFriendsByName(Long id);
+    public boolean deleteUserFriendsByName(String username);//friends username
 
-    public List<User> getUserfriends(Long id);
-//    public List<User> getLevel2Friends(long id);
+    public List<User> getUserfriends(Long id);//my username
+
+    List<User> searchUsersByName(String input);
+
+   public User getUserDetails(String username);
 
 }
