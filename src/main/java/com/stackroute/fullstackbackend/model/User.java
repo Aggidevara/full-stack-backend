@@ -76,11 +76,5 @@ public class User {
         this.description = description;
     }
 
-    public Set<Long> getuser() {
-        return user;
-    }
 
-    public void setuser(Set<Long> user) {
-        this.user = user;
-    }
 }
