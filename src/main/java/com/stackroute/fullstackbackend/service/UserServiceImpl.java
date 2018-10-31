@@ -131,6 +131,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public User deleteUserFriendsByName(String username1, String username2) {
         User loggedInUser = userRepo.deleteUserfriendsByName(username1, username2);
+        User friend=userRepo.existsByName(username2);
+        Long id=loggedInUser.getId();
+        friend.friends.remove(id);
+        loggedInUser.friends.remove(friend.getId());
+        userRepo.save(friend);
+        userRepo.save(loggedInUser);
         return loggedInUser;
     }
 
