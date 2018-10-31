@@ -22,6 +22,8 @@ public class UserController {
         this.userService = userService;
     }
 
+
+
     @PostMapping("adduser")
     public ResponseEntity<?> addUser(@RequestBody User user){
      User user1=userService.addUser(user);
@@ -36,10 +38,19 @@ public class UserController {
         return responseEntity;
     }
 
+
     @GetMapping("getuserfriends/{username}")
-    public ResponseEntity<?> getUserFriends(@PathVariable("username") String username){
-        List<User> user1=userService.getUserFriends(username);
-        ResponseEntity responseEntity=new ResponseEntity<List<User>>(user1, HttpStatus.CREATED);
+    public ResponseEntity<?> getUserFriends(@PathVariable("username") String username) {
+        List<User> user1 = userService.getUserFriends(username);
+        ResponseEntity responseEntity = new ResponseEntity<List<User>>(user1, HttpStatus.CREATED);
+        return responseEntity;
+    }
+
+    @DeleteMapping("deleteuser/{username}")
+    public ResponseEntity<User> deleteUser(@PathVariable("username") String username){
+        boolean user=userService.deleteUserByUsername(username);
+        ResponseEntity responseEntity=new ResponseEntity<String>("deleted Successfully",HttpStatus.OK);
+
         return responseEntity;
     }
     @PutMapping("addfriend/{username1}/{username2}")
@@ -71,12 +82,23 @@ public class UserController {
 //        return responseEntity;
 //    }
 
-    @GetMapping("searchUsers/{name}")
-    public  ResponseEntity<?> searchUsersByName(@PathVariable("name") String name){
+
+    @GetMapping("searchusers/{name}")
+    public  ResponseEntity<User> searchUsersByName(@PathVariable("name") String name){
+
         List<User> user=userService.searchUsersByName(name);
         ResponseEntity responseEntity=new ResponseEntity<List<User>>(user,HttpStatus.OK);
         return responseEntity;
     }
-
-
+    @GetMapping("getUserDetails/{username}")
+    public ResponseEntity<User> getUserDetails(@PathVariable("username") String username){
+        User user1=userService.getUserDetails(username);
+        ResponseEntity responseEntity=new ResponseEntity<User>(user1, HttpStatus.CREATED);
+        return responseEntity;
+    }
+    @DeleteMapping("deleteuserfriend/{username1}/{username2}")
+    public  ResponseEntity<User> deleteUserFriend(@PathVariable("username1") String username1,@PathVariable("username2") String username2){        User user=userService.deleteUserFriendsByName(username1, username2);
+        ResponseEntity responseEntity=new ResponseEntity<User>(user,HttpStatus.OK);
+        return responseEntity;
+    }
 }

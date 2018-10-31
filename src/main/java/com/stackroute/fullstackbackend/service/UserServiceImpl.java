@@ -47,6 +47,7 @@ public class UserServiceImpl implements UserService {
 //    }
 
     @Override
+
     public boolean addFriendByName(String username1,String username2) {
 
         try {
@@ -66,13 +67,14 @@ public class UserServiceImpl implements UserService {
         catch(Exception e){
             return false;}
     }
+
     @Override
-    public boolean deleteUserById(String username) {
-        boolean deleteuser=userRepo.deleteUser(username);
+    public boolean deleteUserByUsername(String username) {
+        boolean deleteuser=userRepo.deleteUserByUsername(username);
         return deleteuser;
     }
 
-    @Override
+
     public List<User> recommendLVar(String name, int var){
 
         if(var==1) {
@@ -89,23 +91,21 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public boolean deleteUserFriendsByName(Long id) {
-       // boolean deletefriend=userRepo.deleteUserfriendsByuserName(userRepo.findById(id).get().getUsername()());
-        return false;
-    }
 
-//    @Override
-//    public List<User> getUserfriends(Long id) {
-//        List<User> friendslist=userRepo.getUserFriends(userRepo.findById(id).get().getUsername());
-//        return friendslist;
-//    }
+
 
     @Override
     public List<User> getUserFriends(String username) {
 //   List<User> friendList= userRepo.existsByName(username).getFriends();
-        List<User> friendslist=userRepo.getUserFriends(username);
+        List<User> friendslist = userRepo.getUserFriends(username);
         return friendslist;
+    }
+@Override
+    public User getUserDetails(String username) {
+        User userdetails= userRepo.getUserDetails(username);
+
+        return userdetails;
+
     }
     @Override
     public List<User> searchUsersByName(String input){
@@ -116,6 +116,12 @@ public class UserServiceImpl implements UserService {
                 matchedList.add(userList.get(i));
         }
         return matchedList;
+    }
+
+    @Override
+    public User deleteUserFriendsByName(String username1, String username2) {
+        User loggedInUser = userRepo.deleteUserfriendsByName(username1, username2);
+        return loggedInUser;
     }
 
 }

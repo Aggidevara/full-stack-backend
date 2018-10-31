@@ -19,8 +19,10 @@ public class User {
     @Relationship(type = "friend")
     public List<Long> friends=new ArrayList<>();
 
+
     public User() {
     }
+
 
     public User(Long id, String username, String name, Integer age, String birthdate, String description, List<Long> friends) {
         this.id = id;
@@ -29,7 +31,9 @@ public class User {
         this.age = age;
         this.birthdate = birthdate;
         this.description = description;
+
         this.friends =friends;
+
     }
 
     public Long getId() {
@@ -80,6 +84,7 @@ public class User {
         this.description = description;
     }
 
+
     public List<Long> getFriends() {
         return friends;
     }
@@ -103,3 +108,7 @@ public class User {
                 '}';
     }
 }
+
+
+
+
