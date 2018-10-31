@@ -46,11 +46,6 @@ public class UserServiceImpl implements UserService {
 //    }
 
     @Override
-    public List<User>addFriendByName(long id1,long id2) {
-        List<User> friend= userRepo.makeFriend(userRepo.findById(id1).get().getUsername(),userRepo.findById(id2).get().getUsername());
-        return friend;
-    }
-    @Override
     public boolean deleteUserByUsername(String username) {
         boolean deleteuser=userRepo.deleteUserByUsername(username);
         return deleteuser;
@@ -58,16 +53,24 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean deleteUserFriendsByName(String username) {
-        boolean deletefriend=userRepo.deleteUserfriendsByName(username);
+        boolean deletefriend = userRepo.deleteUserfriendsByName(username);
         return deletefriend;
     }
+    public List<User> recommendLVar(String name, int var){
 
-    @Override
-    public List<User> getUserfriends(Long id) {
-        List<User> friendslist=userRepo.getUserFriends(userRepo.findById(id).get().getUsername());
-        return friendslist;
+        if(var==1) {
+            List<User> level1 = userRepo.recommendL1(name);
+            return level1;
+        }
+        else if(var==2){
+            List<User> level2 = userRepo.recommendL2(name);
+            return level2;
+        }
+        else{
+
+            return null;
+        }
     }
-
 
     @Override
     public List<User> searchUsersByName(String input){
@@ -86,5 +89,6 @@ public class UserServiceImpl implements UserService {
 
         return userdetails;
     }
+
 
 }
