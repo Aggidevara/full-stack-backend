@@ -96,8 +96,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<User> getUserFriends(String username) {
-//   List<User> friendList= userRepo.existsByName(username).getFriends();
-        List<User> friendslist = userRepo.getUserFriends(username);
+   List<Long> lists= userRepo.existsByName(username).getFriends();
+        List<User> friendslist=new ArrayList<>() ;
+//        Iterator it= lists.iterator();
+//                while(it.hasNext()){
+//                    friendslist.add(userRepo.findById(new Long(it.next())).get());
+//                }
+        for(int i=0;i<lists.size();i++){
+            friendslist.add(userRepo.findById(lists.get(i)).get());
+        }
+
+
         return friendslist;
     }
 @Override

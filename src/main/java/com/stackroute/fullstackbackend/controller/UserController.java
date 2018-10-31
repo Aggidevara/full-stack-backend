@@ -101,4 +101,12 @@ public class UserController {
         ResponseEntity responseEntity=new ResponseEntity<User>(user,HttpStatus.OK);
         return responseEntity;
     }
+
+    @GetMapping("getUserFriendsDetails/{username}")
+    public ResponseEntity<?> getUserFriendsDetails(@PathVariable("username") String username){
+       List<User> user1=userService.getUserFriends(username);
+        ResponseEntity responseEntity=new ResponseEntity<List<User>>(user1, HttpStatus.CREATED);
+        return responseEntity;
+    }
+
 }

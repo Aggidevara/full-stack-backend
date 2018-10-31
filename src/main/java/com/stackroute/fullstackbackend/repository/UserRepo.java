@@ -23,7 +23,7 @@ public interface UserRepo extends Neo4jRepository<User,Long> {
             " friendOfFriendOfFriend")
     public List<User> recommendL2(@Param("username") String username);
 
-    @Query("MATCH (a:User),(b:User) WHERE a.username={username1} AND b.username={username2} CREATE(a)-[r:friend]->(b) CREATE(a)<-[f:friend]-(b) RETURN a")
+    @Query("MATCH (a:User),(b:User) WHERE a.username={userName1} AND b.username={userName2} CREATE(a)-[r:friend]->(b) CREATE(a)<-[f:friend]-(b) RETURN a")
     public User makeFriend(@Param("userName1") String userName1,@Param("userName2") String userName2);
 
 
