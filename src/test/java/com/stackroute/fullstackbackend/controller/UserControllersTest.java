@@ -1,6 +1,8 @@
 package com.stackroute.fullstackbackend.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.stackroute.fullstackbackend.exceptions.UserAlreadyExistsException;
+import com.stackroute.fullstackbackend.exceptions.UserNotFoundException;
 import com.stackroute.fullstackbackend.model.User;
 import com.stackroute.fullstackbackend.service.UserService;
 import com.stackroute.fullstackbackend.service.UserServiceImpl;
@@ -91,10 +93,11 @@ public class UserControllersTest {
 
     @Test
     public void addUser() throws Exception {
-        when(userService.addUser(user1)).thenReturn(user1);
+        User user3= new User(1l,"noor1","raksha",21,"12/6","djs",null);
+        when(userService.addUser(user3)).thenReturn(user3);
         mockMvc.perform(MockMvcRequestBuilders.post("/api/v1/adduser")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(user1)))
+                .content(asJsonString(user3)))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
                 .andDo(MockMvcResultHandlers.print());
 
@@ -112,8 +115,8 @@ public class UserControllersTest {
 
     @Test
     public void getUserFriends() throws Exception {
-        when(userService.getUserFriends(user.getUsername())).thenReturn(list);
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/getuserfriends/aish123")
+        when(userService.getUserFriends(user1.getUsername())).thenReturn(list);
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/getuserfriends/swe1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(user1)))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
@@ -122,10 +125,10 @@ public class UserControllersTest {
 
     @Test
     public void deleteUser() throws Exception {
-        when(userService.deleteUserByUsername(user.getUsername())).thenReturn(true);
+        when(userService.deleteUserByUsername(user1.getUsername())).thenReturn(true);
         mockMvc.perform(MockMvcRequestBuilders
-                .delete("/api/v1/deleteuser/aish123")
-                .contentType(MediaType.APPLICATION_JSON).content(asJsonString(user)))
+                .delete("/api/v1/deleteuser/swe1")
+                .contentType(MediaType.APPLICATION_JSON).content(asJsonString(user1)))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(MockMvcResultHandlers.print());
     }
@@ -154,21 +157,27 @@ public class UserControllersTest {
 @Test
 public void recommendFriendLevel1() throws Exception{
 
-    when(userService.recommendLVar(user.getUsername(),1)).thenReturn(list);
-    mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/recommendL1/aish123/1")
+    when(userService.recommendLVar(user.getUsername(),2)).thenReturn(list);
+    mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/recommendL1/swe1/2")
             .contentType(MediaType.APPLICATION_JSON)
             .content(asJsonString(list)))
             .andExpect(MockMvcResultMatchers.status().isCreated())
             .andDo(MockMvcResultHandlers.print());
 }
     @Test
-    public void searchUsersByName() {
+    public void searchUsersByName() throws Exception {
+        when(userService.searchUsersByName(user.getUsername())).thenReturn(list);
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/getUserFriendsDetails/swe1")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(asJsonString(user)))
+                .andExpect(MockMvcResultMatchers.status().isCreated())
+                .andDo(MockMvcResultHandlers.print());
     }
 
     @Test
     public void getUserDetails() throws Exception {
         when(userService.getUserDetails(user.getUsername())).thenReturn(user);
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/getUserDetails/aish123")
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/getUserDetails/swe1")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(asJsonString(user1)))
                 .andExpect(MockMvcResultMatchers.status().isCreated())
@@ -176,7 +185,18 @@ public void recommendFriendLevel1() throws Exception{
     }
 
     @Test
-    public void deleteUserFriend() {
+    public void deleteUserFriend() throws Exception {
+//        User user3= new User(1l,"noor1","raksha",21,"12/6","djs",null);
+//        user3.friends.add(2l);
+//        User user4= new User(2l,"aish1","aish",21,"12/6","djs",null);
+//        user4.friends.add(1l);
+
+        when(userService.deleteUserFriendsByName(user1.getUsername(),user2.getUsername())).thenReturn(user);
+        mockMvc.perform(MockMvcRequestBuilders
+                .delete("/api/v1/deleteuserfriend/swe1/rhea1")
+                .contentType(MediaType.APPLICATION_JSON).content(asJsonString(user1)))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(MockMvcResultHandlers.print());
     }
     private static String asJsonString(final Object obj)
     {
