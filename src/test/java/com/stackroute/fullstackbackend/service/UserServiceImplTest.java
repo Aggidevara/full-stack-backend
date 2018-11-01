@@ -1,5 +1,6 @@
 package com.stackroute.fullstackbackend.service;
 
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.stackroute.fullstackbackend.model.User;
 import com.stackroute.fullstackbackend.repository.UserRepo;
 import org.junit.Assert;
@@ -19,7 +20,7 @@ import static org.mockito.Mockito.when;
 
 public class UserServiceImplTest {
 
-    User user1;
+    User user1, user2;
 
     @Mock
     UserRepo userRepo;
@@ -28,15 +29,24 @@ public class UserServiceImplTest {
     UserServiceImpl userService;
     List<User> list= null;
     Optional optional;
+    List<Long> friendlist= new ArrayList<>();
+    List<Long> friendlist2= new ArrayList<>();
 
     @Before
     public void setUp(){
         //Initialising the mock object
         MockitoAnnotations.initMocks(this);
-        user1 = new User("Noor",21,"23-11-96","foodieee");
-        list = new ArrayList<>();
+        friendlist.add(2l);
+
+    //friendlist2.add(4l);
+      user1 = new User(1l,"noor123","noor",21,"23-11-96","some description",friendlist);
+        user2 = new User(2l,"aish123","aish",21,"23-07-96","some description",friendlist2);
+      list = new ArrayList<>();
         list.add(user1);
+        list.add(user2);
         optional= Optional.of(user1);
+        optional= Optional.of(user2);
+
 
     }
 
@@ -55,27 +65,50 @@ public class UserServiceImplTest {
     List<User> userList= userService.getAllUsers();
     Assert.assertEquals(list, userList);
     }
+//
+//    @Test
+//    public void addFriendByName() {
+//       when(userRepo.makeFriend(user1.getName(),user2.getName())).thenReturn(user1);
+//       when(userRepo.save((user1))).thenReturn(user1);
+//       when(userRepo.save((user2))).thenReturn(user2);
+//       Boolean  b= userService.addFriendByName(user1.getName(), user2.getName());
+//       Assert.assertEquals(true, b);
+//   }
 
     @Test
-    public void addFriendByName() {
-        when(userRepo.findById(user1.getId())).thenReturn(optional);
-//        when(userRepo.findById(user2.getId())).thenReturn(optional)
-;    }
-
-    @Test
-    public void deleteUserById() {
+    public void deleteUserByUsername() {
+        when(userRepo.deleteUserByUsername(user1.getUsername())).thenReturn(true);
+        Boolean b= userService.deleteUserByUsername("noor123");
+        Assert.assertEquals(true, b);
 
     }
 
     @Test
     public void recommendLVar() {
+
+        when(userRepo.recommendL1(user1.getUsername())).thenReturn(list);
+        List<User> users= userService.recommendLVar(user1.getUsername(), 1 );
+        List<User> listuser=new ArrayList<>();
+        listuser.add(user1);
+        listuser.add(user2);
+        Assert.assertEquals(users,listuser);
+        when(userRepo.recommendL1(user1.getUsername())).thenReturn(list);
+        List<User> users1= userService.recommendLVar(user1.getUsername(), 2 );
+        Assert.assertEquals(users1,new ArrayList<>());
     }
 
     @Test
     public void deleteUserFriendsByName() {
+        when(userRepo.deleteUserfriendsByName(user1.getUsername(),user2.getUsername())).thenReturn(user1);
+        User u= userService.deleteUserFriendsByName("noor123","aish123");
+        Assert.assertEquals(u, user1);
     }
 
     @Test
-    public void getUserfriends() {
+    public void getUserDetails() {
+        when(userRepo.getUserDetails(user1.getUsername())).thenReturn(user1);
+        User u= userService.getUserDetails("noor123");
+        Assert.assertEquals(u, user1);
     }
+
 }

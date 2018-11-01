@@ -6,8 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -46,17 +47,35 @@ public class UserServiceImpl implements UserService {
 //    }
 
     @Override
-    public List<User>addFriendByName(long id1,long id2) {
-        List<User> friend= userRepo.makeFriend(userRepo.findById(id1).get().getName(),userRepo.findById(id2).get().getName());
-        return friend;
-    }
-    @Override
-    public boolean deleteUserById(Long id) {
-        boolean deleteuser=userRepo.deleteUser(userRepo.findById(id).get().getName());
-        return deleteuser;
+
+    public boolean addFriendByName(String username1,String username2) {
+
+        try {
+
+            System.out.println("the parameter data is  "+username1+"  "+username2);
+            User friend = userRepo.makeFriend(username1, username2);
+
+           User u1= userRepo.existsByName(username1);
+           User u2= userRepo.existsByName(username2);
+           u1.setFriends(u2.getId());
+           u2.setFriends(u1.getId());
+           userRepo.save(u1);
+           userRepo.save(u2);
+
+            return true;
+
+        }
+        catch(Exception e){
+            return false;}
     }
 
     @Override
+    public boolean deleteUserByUsername(String username) {
+        boolean deleteuser=userRepo.deleteUserByUsername(username);
+        return deleteuser;
+    }
+
+
     public List<User> recommendLVar(String name, int var){
 
         if(var==1) {
@@ -73,17 +92,46 @@ public class UserServiceImpl implements UserService {
         }
     }
 
-    @Override
-    public boolean deleteUserFriendsByName(Long id) {
-        boolean deletefriend=userRepo.deleteUserfriendsByName(userRepo.findById(id).get().getName());
-        return deletefriend;
-    }
+
+
 
     @Override
-    public List<User> getUserfriends(Long id) {
-        List<User> friendslist=userRepo.getUserFriends(userRepo.findById(id).get().getName());
+    public List<User> getUserFriends(String username) {
+   List<Long> lists= userRepo.existsByName(username).getFriends();
+        List<User> friendslist=new ArrayList<>() ;
+//        Iterator it= lists.iterator();
+//                while(it.hasNext()){
+//                    friendslist.add(userRepo.findById(new Long(it.next())).get());
+//                }
+        for(int i=0;i<lists.size();i++){
+            friendslist.add(userRepo.findById(lists.get(i)).get());
+        }
+
+
         return friendslist;
     }
+@Override
+    public User getUserDetails(String username) {
+        User userdetails= userRepo.getUserDetails(username);
 
+        return userdetails;
+
+    }
+    @Override
+    public List<User> searchUsersByName(String input){
+        List<User> userList=(List)userRepo.getAllUsers();
+        List<User> matchedList=new ArrayList<>();
+        for(int i=0;i<userList.size();i++){
+            if(userList.get(i).getName().toLowerCase().matches("(.*)"+input.toLowerCase()+"(.*)"))
+                matchedList.add(userList.get(i));
+        }
+        return matchedList;
+    }
+
+    @Override
+    public User deleteUserFriendsByName(String username1, String username2) {
+        User loggedInUser = userRepo.deleteUserfriendsByName(username1, username2);
+        return loggedInUser;
+    }
 
 }
