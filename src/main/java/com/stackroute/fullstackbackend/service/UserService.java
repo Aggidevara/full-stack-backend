@@ -12,13 +12,12 @@ public interface UserService {
 
     public List<User> getAllUsers();
 
-<<<<<<< HEAD
+
 
     public boolean addFriendByName(String username1, String username2);
-=======
+
    // public User getUserById(Long id);
-    public boolean addFriendByName(String username1, String username2) throws UserAlreadyExistsException;
->>>>>>> 7d4d9f4d8525e23dcbe31c3d45ab5f70baba6319
+//    public boolean addFriendByName(String username1, String username2) throws UserAlreadyExistsException;
 
 
     public List<User> recommendLVar(String name, int var);

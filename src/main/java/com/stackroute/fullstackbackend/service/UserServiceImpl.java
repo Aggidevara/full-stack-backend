@@ -45,11 +45,11 @@ public class UserServiceImpl implements UserService {
 
     @Override
 
-    public boolean addFriendByName(String username1,String username2) throws UserAlreadyExistsException{
+    public boolean addFriendByName(String username1,String username2){
 
 
             System.out.println("the parameter data is  "+username1+"  "+username2);
-<<<<<<< HEAD
+
             User friend = userRepo.makeFriend(username1, username2);
 
            User u1= userRepo.existsByName(username1);
@@ -59,30 +59,29 @@ public class UserServiceImpl implements UserService {
            userRepo.save(u1);
            userRepo.save(u2);
 
-=======
-            User friend = null;
-            friend=userRepo.makeFriend(username1, username2);
-            boolean value=true;
-            User u1= userRepo.existsByName(username1);
-            User u2= userRepo.existsByName(username2);
-            for(int i=0;i<u1.friends.size();i++){
-               if(u2.getId()==u1.friends.get(i)){
-                   value=false;
-                   break;
-               }
-           }
-           if(value) {
-            u1.setFriends(u2.getId());
-            u2.setFriends(u1.getId());
-            userRepo.save(u1);
-            userRepo.save(u2);
->>>>>>> 7d4d9f4d8525e23dcbe31c3d45ab5f70baba6319
+//            User friend = null;
+//            friend=userRepo.makeFriend(username1, username2);
+//            boolean value=true;
+//            User u1= userRepo.existsByName(username1);
+//            User u2= userRepo.existsByName(username2);
+//            for(int i=0;i<u1.friends.size();i++){
+//               if(u2.getId()==u1.friends.get(i)){
+//                   value=false;
+//                   break;
+//               }
+//           }
+//           if(value) {
+//            u1.setFriends(u2.getId());
+//            u2.setFriends(u1.getId());
+//            userRepo.save(u1);
+//            userRepo.save(u2);
+//
             return true;
         }
-            return false;
-
-
-    }
+//            return false;
+//
+//
+//    }
 
     public boolean deleteUserByUsername(String username)  {
         User deleteuser=userRepo.existsByName(username);

@@ -77,7 +77,7 @@ public class UserServiceImplTest {
 
     @Test
     public void deleteUserByUsername() {
-        when(userRepo.deleteUserByUsername(user1.getUsername())).thenReturn(true);
+        when(userRepo.deleteUserByUsername(user1.getUsername())).thenReturn(user1);
         Boolean b= userService.deleteUserByUsername("noor123");
         Assert.assertEquals(true, b);
 
