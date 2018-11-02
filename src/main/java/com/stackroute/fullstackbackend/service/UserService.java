@@ -23,7 +23,7 @@ public interface UserService {
     public List<User> recommendLVar(String name, int var);
 
 
-    public List<User> searchUsersByName(String input) throws UserNotFoundException;
+    public List<User> searchUsersByName(String username,String input);
 
 
     public List<User> getUserFriends(String username) ;

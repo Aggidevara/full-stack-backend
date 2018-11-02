@@ -23,6 +23,7 @@ public class UserController {
 
     @Autowired
     public UserController(UserService userService) {
+
         this.userService = userService;
     }
 
@@ -55,16 +56,6 @@ public class UserController {
     }
 
 
-    @GetMapping("getuserfriends/{username}")
-    public ResponseEntity<?> getUserFriends(@PathVariable("username") String username)  {
-        ResponseEntity responseEntity;
-
-
-        List<User> user1 = userService.getUserFriends(username);
-        responseEntity = new ResponseEntity<List<User>>(user1, HttpStatus.CREATED);
-
-        return responseEntity;
-    }
 
       @DeleteMapping("deleteuser/{username}")
        public ResponseEntity<?> deleteUser(@PathVariable("username") String username) {
@@ -118,16 +109,12 @@ public class UserController {
     }
 
 
-    @GetMapping("searchusers/{name}")
-    public  ResponseEntity<?> searchUsersByName(@PathVariable("name") String name){
+    @GetMapping("searchusers/{name}/{searchname}")
+    public  ResponseEntity<?> searchUsersByName(@PathVariable("name") String name,@PathVariable("searchname") String input){
         ResponseEntity responseEntity;
-        List<User> user = null;
-        try {
-            user = userService.searchUsersByName(name);
+        List<User> user = userService.searchUsersByName(name,input);
             responseEntity = new ResponseEntity<List<User>>(user, HttpStatus.OK);
-        }catch(UserNotFoundException e){
-            responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
-        }
+
         return responseEntity;
     }
     @GetMapping("getUserDetails/{username}")
@@ -141,15 +128,17 @@ public class UserController {
         }
         return responseEntity;
     }
+    
+    @GetMapping("getuserfriends/{username}")
+    public ResponseEntity<?> getUserFriends(@PathVariable("username") String username)  {
+        ResponseEntity responseEntity;
 
-    @GetMapping("getUserFriendsDetails/{username}")
-    public ResponseEntity<?> getUserFriendsDetails(@PathVariable("username") String username){
-       List<User> user1=null; ResponseEntity responseEntity;
 
-           user1 = userService.getUserFriends(username);
-           responseEntity = new ResponseEntity<List<User>>(user1, HttpStatus.CREATED);
+        List<User> user1 = userService.getUserFriends(username);
+        responseEntity = new ResponseEntity<List<User>>(user1, HttpStatus.CREATED);
 
         return responseEntity;
     }
+
 
 }

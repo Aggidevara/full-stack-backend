@@ -164,15 +164,15 @@ public void recommendFriendLevel1() throws Exception{
             .andExpect(MockMvcResultMatchers.status().isCreated())
             .andDo(MockMvcResultHandlers.print());
 }
-    @Test
-    public void searchUsersByName() throws Exception {
-        when(userService.searchUsersByName(user.getUsername())).thenReturn(list);
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/getUserFriendsDetails/swe1")
-                .contentType(MediaType.APPLICATION_JSON)
-                .content(asJsonString(user)))
-                .andExpect(MockMvcResultMatchers.status().isCreated())
-                .andDo(MockMvcResultHandlers.print());
-    }
+//    @Test
+//    public void searchUsersByName() throws Exception {
+//        when(userService.searchUsersByName(user.getUsername())).thenReturn(list);
+//        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1/getUserFriendsDetails/swe1")
+//                .contentType(MediaType.APPLICATION_JSON)
+//                .content(asJsonString(user)))
+//                .andExpect(MockMvcResultMatchers.status().isCreated())
+//                .andDo(MockMvcResultHandlers.print());
+//    }
 
     @Test
     public void getUserDetails() throws Exception {

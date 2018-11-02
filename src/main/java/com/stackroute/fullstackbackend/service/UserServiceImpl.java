@@ -25,14 +25,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User addUser(User user) throws UserAlreadyExistsException {
-        User addedUser=null;
+        User addedUser;
         User existingUser=userRepo.existsByName(user.getUsername());
-        if(existingUser.getName()==user.getName()){
+        if(existingUser==null){
+            addedUser=userRepo.save(user);
+        }
+        else {
             throw new UserAlreadyExistsException("User Already Exists");
         }
-            addedUser=userRepo.save(user);
-
-
         return addedUser;
     }
 
@@ -94,8 +94,8 @@ public class UserServiceImpl implements UserService {
 
     public boolean deleteUserByUsername(String username) throws UserNotFoundException{
         User deleteuser=userRepo.existsByName(username);
-        if(deleteuser.getUsername()!=username){
-            throw new UserNotFoundException("User Not Exists");
+        if(deleteuser.getUsername()==null){
+            throw new UserNotFoundException("User Does Not Exists");
         }
         deleteuser=userRepo.deleteUserByUsername(username);
         return true;
@@ -139,16 +139,19 @@ public class UserServiceImpl implements UserService {
 
     }
     @Override
-    public List<User> searchUsersByName(String input) throws UserNotFoundException{
-        List<User> userList=(List)userRepo.getAllUsers();
-        List<User> matchedList=new ArrayList<>();
-        for(int i=0;i<userList.size();i++){
-            if(userList.get(i).getName().toLowerCase().matches("(.*)"+input.toLowerCase()+"(.*)"))
-                matchedList.add(userList.get(i));
+    public List<User> searchUsersByName(String username,String input) {
+        List<User> userList = (List)userRepo.getAllUsers();
+        System.out.println("userlist:----"+userList);
+        List<User> newList = this.getUserFriends(username);
+        List<User> matchedList = new ArrayList<>();
+        for (int i = 0; i < userList.size(); i++) {
+            if (userList.get(i).getName().toLowerCase().matches("(.*)" + input.toLowerCase() + "(.*)")) {
+                if (!newList.contains(userList.get(i)))
+                    matchedList.add(userList.get(i));
+            }
+
         }
-        if(matchedList.isEmpty()){
-            throw new UserNotFoundException("No users with this name found");
-        }
+
         return matchedList;
     }
 
