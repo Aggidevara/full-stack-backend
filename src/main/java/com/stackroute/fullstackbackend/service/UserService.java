@@ -10,11 +10,11 @@ import java.util.Set;
 public interface UserService {
     public User addUser(User user) throws UserAlreadyExistsException;
 
-    public List<User> getAllUsers();
+    public List<User> getAllUsers() throws UserNotFoundException;
 
 
 
-    public boolean addFriendByName(String username1, String username2);
+    public boolean addFriendByName(String username1, String username2) throws UserNotFoundException;
 
    // public User getUserById(Long id);
 //    public boolean addFriendByName(String username1, String username2) throws UserAlreadyExistsException;
@@ -23,14 +23,14 @@ public interface UserService {
     public List<User> recommendLVar(String name, int var);
 
 
-    public List<User> searchUsersByName(String input) throws Exception;
+    public List<User> searchUsersByName(String input) throws UserNotFoundException;
 
 
     public List<User> getUserFriends(String username) ;
 
-    public boolean deleteUserByUsername(String username);//username
+    public boolean deleteUserByUsername(String username) throws UserNotFoundException;//username
 
-    public User getUserDetails(String username);
+    public User getUserDetails(String username) throws UserNotFoundException;
 
-    public User deleteUserFriendsByName(String username1, String username2);
+    public User deleteUserFriendsByName(String username1, String username2) throws UserNotFoundException;
 }

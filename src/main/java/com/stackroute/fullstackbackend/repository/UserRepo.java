@@ -1,13 +1,16 @@
 package com.stackroute.fullstackbackend.repository;
 
 import com.stackroute.fullstackbackend.model.User;
+import org.springframework.data.neo4j.annotation.EnableNeo4jAuditing;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
+import org.springframework.data.neo4j.repository.config.EnableNeo4jRepositories;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
 import java.util.Set;
 
+@EnableNeo4jRepositories
 public interface UserRepo extends Neo4jRepository<User,Long> {
 
     @Query("MATCH (me:User)-[:friend]->(myFriend:User)-[:friend]->(friendOfFriend:User) WHERE NOT \n" +

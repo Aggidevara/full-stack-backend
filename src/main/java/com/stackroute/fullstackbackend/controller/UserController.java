@@ -10,7 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.jws.soap.SOAPBinding;
+//import javax.jws.soap.SOAPBinding;
 import java.util.List;
 import java.util.Set;
 
@@ -29,32 +29,43 @@ public class UserController {
 
 
     @PostMapping("adduser")
-    public ResponseEntity<?> addUser(@RequestBody User user) throws UserAlreadyExistsException {
+    public ResponseEntity<?> addUser(@RequestBody User user) {
      User user1;
      ResponseEntity responseEntity;
-     try {
+   try {
          user1 = userService.addUser(user);
         responseEntity = new ResponseEntity<String>("added succcessfully", HttpStatus.CREATED);
-     }catch (Exception e){
-         responseEntity = new ResponseEntity<String>("User Already Exists", HttpStatus.CONFLICT);
+     }catch (UserAlreadyExistsException e){
+        responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
      }
      return responseEntity;
     }
 
     @GetMapping("getuser")
     public ResponseEntity<?> getAllUser(){
-        List<User> user1=userService.getAllUsers();
-        ResponseEntity responseEntity=new ResponseEntity<List<User>>(user1, HttpStatus.OK);
+
+        ResponseEntity responseEntity;
+        try {
+            List<User> user1=userService.getAllUsers();
+            responseEntity = new ResponseEntity<List<User>>(user1, HttpStatus.OK);
+        }catch (UserNotFoundException e){
+            responseEntity = new ResponseEntity<String>(e.getMessage(),HttpStatus.CONFLICT);
+        }
         return responseEntity;
     }
 
 
     @GetMapping("getuserfriends/{username}")
     public ResponseEntity<?> getUserFriends(@PathVariable("username") String username)  {
+        ResponseEntity responseEntity;
+
+
         List<User> user1 = userService.getUserFriends(username);
-        ResponseEntity responseEntity = new ResponseEntity<List<User>>(user1, HttpStatus.CREATED);
+        responseEntity = new ResponseEntity<List<User>>(user1, HttpStatus.CREATED);
+
         return responseEntity;
     }
+
       @DeleteMapping("deleteuser/{username}")
        public ResponseEntity<?> deleteUser(@PathVariable("username") String username) {
         boolean user = false;
@@ -62,13 +73,13 @@ public class UserController {
         try {
             user = userService.deleteUserByUsername(username);
             responseEntity = new ResponseEntity<Boolean>(user, HttpStatus.OK);
-        }catch(Exception e){
-           responseEntity = new ResponseEntity<Boolean>(user, HttpStatus.CONFLICT);
+        }catch(UserNotFoundException e){
+           responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
         }
         return responseEntity;
     }
     @PutMapping("addfriend/{username1}/{username2}")
-    public ResponseEntity<?> addFriend(@PathVariable("username1") String username1, @PathVariable("username2") String username2) throws UserAlreadyExistsException{
+    public ResponseEntity<?> addFriend(@PathVariable("username1") String username1, @PathVariable("username2") String username2){
        boolean user1=false;
         ResponseEntity responseEntity;
       // if(user1) {
@@ -76,7 +87,7 @@ public class UserController {
             user1=userService.addFriendByName(username1,username2);
             responseEntity = new ResponseEntity<String>("friend made", HttpStatus.CREATED);
         }
-        catch(Exception e){
+        catch(UserNotFoundException e){
             responseEntity = new ResponseEntity<String>("You are already a friend", HttpStatus.CONFLICT);
         }
            return responseEntity;
@@ -100,7 +111,7 @@ public class UserController {
         try {
             user = userService.deleteUserFriendsByName(username1, username2);
             responseEntity = new ResponseEntity<User>(user, HttpStatus.OK);
-        }catch(Exception e){
+        }catch(UserNotFoundException e){
             responseEntity = new ResponseEntity<String>("This friend does not exist in your friend list", HttpStatus.CONFLICT);
         }
         return responseEntity;
@@ -108,14 +119,14 @@ public class UserController {
 
 
     @GetMapping("searchusers/{name}")
-    public  ResponseEntity<?> searchUsersByName(@PathVariable("name") String name) throws Exception{
+    public  ResponseEntity<?> searchUsersByName(@PathVariable("name") String name){
         ResponseEntity responseEntity;
         List<User> user = null;
         try {
             user = userService.searchUsersByName(name);
             responseEntity = new ResponseEntity<List<User>>(user, HttpStatus.OK);
-        }catch(Exception e){
-            responseEntity = new ResponseEntity<String>("No users with this name", HttpStatus.CONFLICT);
+        }catch(UserNotFoundException e){
+            responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
         }
         return responseEntity;
     }
@@ -125,8 +136,8 @@ public class UserController {
         try {
             user1 = userService.getUserDetails(username);
          responseEntity = new ResponseEntity<User>(user1, HttpStatus.CREATED);
-        }catch (Exception e){
-            responseEntity = new ResponseEntity<String>("This user does not exists", HttpStatus.CONFLICT);
+        }catch (UserNotFoundException e){
+            responseEntity = new ResponseEntity<String>(e.getMessage(), HttpStatus.CONFLICT);
         }
         return responseEntity;
     }
@@ -134,12 +145,10 @@ public class UserController {
     @GetMapping("getUserFriendsDetails/{username}")
     public ResponseEntity<?> getUserFriendsDetails(@PathVariable("username") String username){
        List<User> user1=null; ResponseEntity responseEntity;
-       try {
+
            user1 = userService.getUserFriends(username);
            responseEntity = new ResponseEntity<List<User>>(user1, HttpStatus.CREATED);
-       }catch (Exception e){
-           responseEntity = new ResponseEntity<String>("This your does not exists", HttpStatus.CONFLICT);
-       }
+
         return responseEntity;
     }
 
